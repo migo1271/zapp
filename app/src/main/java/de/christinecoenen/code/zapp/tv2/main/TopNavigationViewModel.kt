@@ -4,23 +4,40 @@ import androidx.compose.runtime.IntState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.lifecycle.ViewModel
 import de.christinecoenen.code.zapp.R
+import kotlinx.serialization.Serializable
 
 class TopNavigationViewModel : ViewModel() {
 
-	val tabsStringIds = listOf(
-		R.string.activity_main_tab_live,
-		R.string.activity_main_tab_mediathek,
-		R.string.menu_about_short,
-	)
+    @Serializable
+    object Live
 
-	private val _selectedTab = mutableIntStateOf(0)
-	val selectedTab: IntState = _selectedTab
+    @Serializable
+    object MediaCenter
 
-	fun isSelected(index: Int): Boolean {
-		return index == _selectedTab.intValue
-	}
+    @Serializable
+    object About
 
-	fun select(index: Int) {
-		_selectedTab.intValue = index
-	}
+    companion object {
+        private val Tabs = mapOf(
+            Live to R.string.activity_main_tab_live,
+            MediaCenter to R.string.activity_main_tab_mediathek,
+            About to R.string.menu_about_short,
+        )
+
+        fun getRoute(index: Int) = Tabs.keys.toList()[index]
+    }
+
+    private val _selectedTab = mutableIntStateOf(0)
+    val selectedTab: IntState = _selectedTab
+
+    val tabStringIds
+        get() = Tabs.values
+
+    fun isSelected(index: Int): Boolean {
+        return index == _selectedTab.intValue
+    }
+
+    fun select(index: Int) {
+        _selectedTab.intValue = index
+    }
 }

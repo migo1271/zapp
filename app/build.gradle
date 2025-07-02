@@ -5,6 +5,7 @@ plugins {
 	id 'com.mikepenz.aboutlibraries.plugin'
 	id 'androidx.navigation.safeargs.kotlin'
 	id 'org.jetbrains.kotlin.plugin.compose'
+	id 'org.jetbrains.kotlin.plugin.serialization' version '2.2.0'
 }
 
 android {
@@ -137,8 +138,10 @@ dependencies {
 	implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 	implementation "androidx.lifecycle:lifecycle-service:$lifecycle_version"
 
+	// navigation
 	implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
 	implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+	implementation "androidx.navigation:navigation-compose:$nav_version"
 
 	// room database
 	def room_version = "2.7.2"
