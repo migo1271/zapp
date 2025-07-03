@@ -29,7 +29,10 @@ fun initializeExoPlayer(context: Context): ExoPlayer {
 }
 
 @Composable
-fun StreamPreviewImage(streamUrl: String) {
+fun StreamPreviewImage(
+	modifier: Modifier = Modifier,
+	streamUrl: String
+) {
 	val context = LocalContext.current
 	val player = remember { initializeExoPlayer(context) }
 	val bgColor = MaterialTheme.colorScheme.surface.toArgb()
@@ -51,7 +54,7 @@ fun StreamPreviewImage(streamUrl: String) {
 	}
 
 	Box(
-		modifier = Modifier.aspectRatio(16 / 9f),
+		modifier = modifier.aspectRatio(16 / 9f),
 	) {
 		AndroidView(
 			factory = {
