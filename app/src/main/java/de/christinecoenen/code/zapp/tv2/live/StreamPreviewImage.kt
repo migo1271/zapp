@@ -22,9 +22,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
 import androidx.tv.material3.MaterialTheme
@@ -35,7 +37,21 @@ import kotlin.time.Duration.Companion.milliseconds
 val fadeDuration = 750.milliseconds
 
 fun initializeExoPlayer(context: Context): ExoPlayer {
-	return ExoPlayer.Builder(context).build()
+	return ExoPlayer.Builder(context)
+		.setTrackSelector(
+			DefaultTrackSelector(context)
+				.apply {
+					setParameters(
+						parameters
+							.buildUpon()
+							.setRendererDisabled(C.TRACK_TYPE_VIDEO, true)
+							.setRendererDisabled(C.TRACK_TYPE_TEXT, true)
+							.setRendererDisabled(C.TRACK_TYPE_AUDIO, true)
+							.build()
+					)
+				}
+		)
+		.build()
 }
 
 @Composable
@@ -73,7 +89,6 @@ fun StreamPreviewImage(
 		player.apply {
 			stop()
 			removeMediaItem(0)
-			// TODO: suppress subtitles
 			setMediaItem(MediaItem.fromUri(streamUrl))
 			prepare()
 		}
