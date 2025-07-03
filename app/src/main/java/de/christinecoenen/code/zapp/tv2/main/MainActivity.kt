@@ -3,15 +3,15 @@ package de.christinecoenen.code.zapp.tv2.main
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.tv.material3.MaterialTheme
 import de.christinecoenen.code.zapp.tv2.about.AboutScreen
 import de.christinecoenen.code.zapp.tv2.about.MediaCenterScreen
 import de.christinecoenen.code.zapp.tv2.live.LiveScreen
@@ -26,24 +26,15 @@ class MainActivity : ComponentActivity() {
             AppTheme {
                 val navController = rememberNavController()
 
-                Column(
+                Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .fillMaxWidth()
+                        .background(MaterialTheme.colorScheme.surface)
                 ) {
-
-                    TopNavigation(
-                        onTabSelected = { index ->
-                            navController.navigate(
-                                route = TopNavigationViewModel.getRoute(index)
-                            )
-                        },
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
-                    )
-
                     Box(
                         modifier = Modifier.fillMaxSize()
-                    ) {
+                    )
+                    {
                         NavHost(
                             navController = navController,
                             startDestination = TopNavigationViewModel.Live
@@ -52,6 +43,15 @@ class MainActivity : ComponentActivity() {
                             composable<TopNavigationViewModel.MediaCenter> { MediaCenterScreen() }
                             composable<TopNavigationViewModel.About> { AboutScreen() }
                         }
+
+                        TopNavigation(
+                            onTabSelected = { index ->
+                                navController.navigate(
+                                    route = TopNavigationViewModel.getRoute(index)
+                                )
+                            },
+                            modifier = Modifier.align(Alignment.TopCenter)
+                        )
                     }
                 }
             }
