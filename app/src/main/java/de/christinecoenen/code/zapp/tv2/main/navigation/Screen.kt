@@ -6,6 +6,8 @@ enum class Screen(
     val titleResId: Int? = null,
     val isMainTabScreen: Boolean = false,
 ) {
+    EMPTY,
+
     LIVE(
         titleResId = R.string.activity_main_tab_live,
         isMainTabScreen = true,

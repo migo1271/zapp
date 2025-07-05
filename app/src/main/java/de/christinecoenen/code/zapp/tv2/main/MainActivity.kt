@@ -24,6 +24,7 @@ class MainActivity : ComponentActivity() {
 
     private val navigationViewModel: NavigationViewModel by inject()
 
+    // TODO: handle back press
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -39,11 +40,12 @@ class MainActivity : ComponentActivity() {
                     )
                     {
                         val currentScreen by navigationViewModel.currentScreen
-                            .collectAsStateWithLifecycle()
+                            .collectAsStateWithLifecycle(Screen.EMPTY)
                         val currentSelectedTabIndex by navigationViewModel.currentSelectedTabIndex
                             .collectAsStateWithLifecycle(-1)
 
                         when (currentScreen) {
+                            Screen.EMPTY -> {}
                             Screen.LIVE -> LiveScreen(
                                 onChannelClick = {
                                     navigationViewModel.showScreen(Screen.PLAYER)
