@@ -28,57 +28,59 @@ import org.koin.androidx.compose.koinViewModel
 
 @TvPreview
 @Composable
-fun LiveScreen(programInfoViewModel: ProgramInfoViewModel = koinViewModel()) {
+fun LiveScreen(
+	programInfoViewModel: ProgramInfoViewModel = koinViewModel(),
+	onChannelClick: (channel: ChannelModel) -> Unit = {},
+) {
 
-    val context = LocalContext.current
-    val channels = rememberSaveable { JsonChannelList(context).list }
-    var focusedChannel by remember { mutableStateOf<ChannelModel?>(null) }
+	val context = LocalContext.current
+	val channels = rememberSaveable { JsonChannelList(context).list }
+	var focusedChannel by remember { mutableStateOf<ChannelModel?>(null) }
 
-    LaunchedEffect(focusedChannel?.id) {
-        focusedChannel?.let { programInfoViewModel.setChannelId(it.id) }
-    }
+	LaunchedEffect(focusedChannel?.id) {
+		focusedChannel?.let { programInfoViewModel.setChannelId(it.id) }
+	}
 
-    val title by programInfoViewModel.titleFlow.collectAsStateWithLifecycle("")
-    val subtitle by programInfoViewModel.subtitleFlow.collectAsStateWithLifecycle(null)
-    val description by programInfoViewModel.descriptionFlow.collectAsStateWithLifecycle(null)
-    val time by programInfoViewModel.timeFlow.collectAsStateWithLifecycle(null)
+	val title by programInfoViewModel.titleFlow.collectAsStateWithLifecycle("")
+	val subtitle by programInfoViewModel.subtitleFlow.collectAsStateWithLifecycle(null)
+	val description by programInfoViewModel.descriptionFlow.collectAsStateWithLifecycle(null)
+	val time by programInfoViewModel.timeFlow.collectAsStateWithLifecycle(null)
 
-    if (focusedChannel != null) {
-        Box(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            StreamPreviewImage(
-                streamUrl = focusedChannel!!.streamUrl,
-                modifier = Modifier
-                    .width(758.dp)
-                    .align(Alignment.TopEnd)
-            )
-        }
-    }
+	if (focusedChannel != null) {
+		Box(
+			modifier = Modifier.fillMaxWidth()
+		) {
+			StreamPreviewImage(
+				streamUrl = focusedChannel!!.streamUrl,
+				modifier = Modifier
+					.width(758.dp)
+					.align(Alignment.TopEnd)
+			)
+		}
+	}
 
-    Column(
-        verticalArrangement = Arrangement.Bottom,
-        modifier = Modifier.fillMaxSize()
-    ) {
-        if (focusedChannel != null) {
-            ChannelInfo(
-                showTitle = title,
-                showSubtitle = subtitle,
-                description = description,
-                time = time,
-                modifier = Modifier
-                    .fillMaxWidth(0.7f)
-                    .padding(horizontal = 58.dp)
-            )
-        }
+	Column(
+		verticalArrangement = Arrangement.Bottom,
+		modifier = Modifier.fillMaxSize()
+	) {
+		if (focusedChannel != null) {
+			ChannelInfo(
+				showTitle = title,
+				showSubtitle = subtitle,
+				description = description,
+				time = time,
+				modifier = Modifier
+					.fillMaxWidth(0.7f)
+					.padding(horizontal = 58.dp)
+			)
+		}
 
-        ChannelList(
-            channels = channels,
-            onChannelClick = {},
-            onChannelFocus = { index -> focusedChannel = channels[index] },
-            //onUnfocus = { focusedChannel = null }
-        )
-    }
+		ChannelList(
+			channels = channels,
+			onChannelClick = { index -> onChannelClick(channels[index]) },
+			onChannelFocus = { index -> focusedChannel = channels[index] },
+		)
+	}
 }
 
 

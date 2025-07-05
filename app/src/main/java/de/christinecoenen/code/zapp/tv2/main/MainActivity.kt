@@ -16,6 +16,7 @@ import de.christinecoenen.code.zapp.tv2.about.MediaCenterScreen
 import de.christinecoenen.code.zapp.tv2.live.LiveScreen
 import de.christinecoenen.code.zapp.tv2.main.navigation.NavigationViewModel
 import de.christinecoenen.code.zapp.tv2.main.navigation.Screen
+import de.christinecoenen.code.zapp.tv2.player.PlayerScreen
 import de.christinecoenen.code.zapp.tv2.theme.AppTheme
 import org.koin.android.ext.android.inject
 
@@ -43,17 +44,25 @@ class MainActivity : ComponentActivity() {
                             .collectAsStateWithLifecycle(-1)
 
                         when (currentScreen) {
-                            Screen.LIVE -> LiveScreen()
+                            Screen.LIVE -> LiveScreen(
+                                onChannelClick = {
+                                    navigationViewModel.showScreen(Screen.PLAYER)
+                                }
+                            )
+
                             Screen.MEDIA_CENTER -> MediaCenterScreen()
                             Screen.ABOUT -> AboutScreen()
+                            Screen.PLAYER -> PlayerScreen()
                         }
 
-                        TopNavigation(
-                            selectedTabIndex = currentSelectedTabIndex,
-                            onTabSelected = { index -> navigationViewModel.selectMainTab(index) },
-                            tabStringIds = navigationViewModel.mainTabTitleResIds,
-                            modifier = Modifier.align(Alignment.TopCenter)
-                        )
+                        if (currentScreen.isMainTabScreen) {
+                            TopNavigation(
+                                selectedTabIndex = currentSelectedTabIndex,
+                                onTabSelected = { index -> navigationViewModel.selectMainTab(index) },
+                                tabStringIds = navigationViewModel.mainTabTitleResIds,
+                                modifier = Modifier.align(Alignment.TopCenter)
+                            )
+                        }
                     }
                 }
             }

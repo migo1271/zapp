@@ -8,14 +8,10 @@ import kotlinx.coroutines.flow.map
 class NavigationViewModel : ViewModel() {
 
     companion object {
-        val MainTabScreens = listOf(
-            Screen.LIVE,
-            Screen.MEDIA_CENTER,
-            Screen.ABOUT,
-        )
+        val MainTabScreens = Screen.entries.filter { it.isMainTabScreen }
     }
 
-    private var _currentScreen = MutableStateFlow(Screen.LIVE)
+    private var _currentScreen = MutableStateFlow(MainTabScreens.first())
     val currentScreen = _currentScreen.asStateFlow()
 
     val mainTabTitleResIds
@@ -26,5 +22,9 @@ class NavigationViewModel : ViewModel() {
 
     fun selectMainTab(index: Int) {
         _currentScreen.value = MainTabScreens[index]
+    }
+
+    fun showScreen(screen: Screen) {
+        _currentScreen.value = screen
     }
 }
