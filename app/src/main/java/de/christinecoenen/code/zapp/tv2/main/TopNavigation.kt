@@ -53,13 +53,16 @@ fun TopNavigation(
                 .padding(top = 32.dp, bottom = 16.dp)
                 .focusGroup()
                 .focusRestorer()
-                .focusRequester(focusRequester)
                 .onFocusChanged { hasFocus = it.hasFocus }
         ) {
             tabStringIds.forEachIndexed { index, tabResId ->
+                val isSelected = index == selectedTabIndex
+
                 Tab(
-                    selected = index == selectedTabIndex,
+                    selected = isSelected,
                     onFocus = { onTabSelected(index) },
+                    modifier = Modifier
+                        .then(if (isSelected) Modifier.focusRequester(focusRequester) else Modifier)
                 ) {
                     Text(
                         text = stringResource(tabResId),
