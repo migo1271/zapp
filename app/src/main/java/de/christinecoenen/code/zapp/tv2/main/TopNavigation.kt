@@ -1,10 +1,19 @@
 package de.christinecoenen.code.zapp.tv2.main
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.focusRestorer
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Tab
@@ -26,12 +35,26 @@ fun TopNavigation(
     onTabSelected: (index: Int) -> Unit = {}
 ) {
     AppTheme {
+        val focusRequester = remember { FocusRequester() }
+        var hasFocus by remember { mutableStateOf(false) }
+
+        BackHandler(selectedTabIndex != 0 || !hasFocus) {
+            onTabSelected(0)
+            focusRequester.requestFocus()
+        }
+
+        LaunchedEffect(Unit) {
+            focusRequester.requestFocus()
+        }
+
         TabRow(
             selectedTabIndex = selectedTabIndex,
             modifier = modifier
                 .padding(top = 32.dp, bottom = 16.dp)
                 .focusGroup()
                 .focusRestorer()
+                .focusRequester(focusRequester)
+                .onFocusChanged { hasFocus = it.hasFocus }
         ) {
             tabStringIds.forEachIndexed { index, tabResId ->
                 Tab(
