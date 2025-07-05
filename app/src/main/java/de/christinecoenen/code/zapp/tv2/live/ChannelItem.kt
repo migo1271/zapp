@@ -26,6 +26,7 @@ import de.christinecoenen.code.zapp.tv2.theme.TvPreview
 @TvPreview
 @Composable
 fun ChannelItem(
+	modifier: Modifier = Modifier,
 	name: String = "Das Erste",
 	subtitle: String? = "My Subtitle",
 	isSelected: Boolean = false,
@@ -49,7 +50,7 @@ fun ChannelItem(
 			focusedContainerColor = focusedBgColor,
 		),
 		onClick = onClick,
-		modifier = Modifier
+		modifier = modifier
             .size(100.dp)
             .onFocusChanged {
                 if (it.hasFocus) {
