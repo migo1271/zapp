@@ -11,8 +11,9 @@ import de.christinecoenen.code.zapp.models.channels.ChannelModel
 @Composable
 fun ChannelList(
 	channels: List<ChannelModel>,
+	selectedChannelIndex: Int = 0,
+	onChannelSelected: (index: Int) -> Unit = {},
 	onChannelClick: (index: Int) -> Unit = {},
-	onChannelFocus: (index: Int) -> Unit = {},
 ) {
 	LazyRow(
 		horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -23,8 +24,9 @@ fun ChannelList(
 				name = channel.name,
 				subtitle = channel.subtitle,
 				logoResId = channel.drawableId,
+				isSelected = index == selectedChannelIndex,
 				onClick = { onChannelClick(index) },
-				onFocus = { onChannelFocus(index) },
+				onFocus = { onChannelSelected(index) },
 			)
 		}
 	}

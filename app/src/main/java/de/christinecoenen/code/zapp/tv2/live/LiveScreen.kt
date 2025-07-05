@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -35,10 +35,11 @@ fun LiveScreen(
 
 	val context = LocalContext.current
 	val channels = rememberSaveable { JsonChannelList(context).list }
-	var focusedChannel by remember { mutableStateOf<ChannelModel?>(null) }
+	var selectedChannelIndex by remember { mutableIntStateOf(0) }
+	val selectedChannel = channels[selectedChannelIndex]
 
-	LaunchedEffect(focusedChannel?.id) {
-		focusedChannel?.let { programInfoViewModel.setChannelId(it.id) }
+	LaunchedEffect(selectedChannel.id) {
+		selectedChannel.let { programInfoViewModel.setChannelId(it.id) }
 	}
 
 	val title by programInfoViewModel.titleFlow.collectAsStateWithLifecycle("")
@@ -46,39 +47,36 @@ fun LiveScreen(
 	val description by programInfoViewModel.descriptionFlow.collectAsStateWithLifecycle(null)
 	val time by programInfoViewModel.timeFlow.collectAsStateWithLifecycle(null)
 
-	if (focusedChannel != null) {
-		Box(
-			modifier = Modifier.fillMaxWidth()
-		) {
-			StreamPreviewImage(
-				streamUrl = focusedChannel!!.streamUrl,
-				modifier = Modifier
-					.width(758.dp)
-					.align(Alignment.TopEnd)
-			)
-		}
+	Box(
+		modifier = Modifier.fillMaxWidth()
+	) {
+		StreamPreviewImage(
+			streamUrl = selectedChannel.streamUrl,
+			modifier = Modifier
+				.width(758.dp)
+				.align(Alignment.TopEnd)
+		)
 	}
 
 	Column(
 		verticalArrangement = Arrangement.Bottom,
 		modifier = Modifier.fillMaxSize()
 	) {
-		if (focusedChannel != null) {
-			ChannelInfo(
-				showTitle = title,
-				showSubtitle = subtitle,
-				description = description,
-				time = time,
-				modifier = Modifier
-					.fillMaxWidth(0.7f)
-					.padding(horizontal = 58.dp)
-			)
-		}
+		ChannelInfo(
+			showTitle = title,
+			showSubtitle = subtitle,
+			description = description,
+			time = time,
+			modifier = Modifier
+				.fillMaxWidth(0.7f)
+				.padding(horizontal = 58.dp)
+		)
 
 		ChannelList(
 			channels = channels,
+			selectedChannelIndex = selectedChannelIndex,
 			onChannelClick = { index -> onChannelClick(channels[index]) },
-			onChannelFocus = { index -> focusedChannel = channels[index] },
+			onChannelSelected = { index -> selectedChannelIndex = index },
 		)
 	}
 }

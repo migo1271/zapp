@@ -19,6 +19,7 @@ import androidx.tv.material3.ClickableSurfaceDefaults
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
+import androidx.tv.material3.surfaceColorAtElevation
 import de.christinecoenen.code.zapp.R
 import de.christinecoenen.code.zapp.tv2.theme.TvPreview
 
@@ -27,15 +28,25 @@ import de.christinecoenen.code.zapp.tv2.theme.TvPreview
 fun ChannelItem(
 	name: String = "Das Erste",
 	subtitle: String? = "My Subtitle",
+	isSelected: Boolean = false,
 	@DrawableRes logoResId: Int = R.drawable.channel_logo_das_erste,
 	onClick: () -> Unit = {},
 	onFocus: () -> Unit = {},
 ) {
 	val hasSubtitle = !subtitle.isNullOrEmpty()
+
+	val bgColor = if (isSelected)
+		MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp) else
+		MaterialTheme.colorScheme.surface
+	val focusedBgColor = if (isSelected)
+		MaterialTheme.colorScheme.surfaceColorAtElevation(4.dp) else
+		MaterialTheme.colorScheme.surface
+
 	Surface(
 		shape = ClickableSurfaceDefaults.shape(CircleShape),
 		colors = ClickableSurfaceDefaults.colors(
-			focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+			containerColor = bgColor,
+			focusedContainerColor = focusedBgColor,
 		),
 		onClick = onClick,
 		modifier = Modifier
