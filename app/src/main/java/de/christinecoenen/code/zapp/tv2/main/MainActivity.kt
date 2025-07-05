@@ -6,26 +6,28 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tv.material3.MaterialTheme
 import de.christinecoenen.code.zapp.tv2.about.AboutScreen
 import de.christinecoenen.code.zapp.tv2.about.MediaCenterScreen
 import de.christinecoenen.code.zapp.tv2.live.LiveScreen
+import de.christinecoenen.code.zapp.tv2.main.navigation.NavigationViewModel
+import de.christinecoenen.code.zapp.tv2.main.navigation.Screen
 import de.christinecoenen.code.zapp.tv2.theme.AppTheme
+import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {
+
+    private val navigationViewModel: NavigationViewModel by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
             AppTheme {
-                val navController = rememberNavController()
-
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -35,21 +37,21 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.fillMaxSize()
                     )
                     {
-                        NavHost(
-                            navController = navController,
-                            startDestination = TopNavigationViewModel.Live
-                        ) {
-                            composable<TopNavigationViewModel.Live> { LiveScreen() }
-                            composable<TopNavigationViewModel.MediaCenter> { MediaCenterScreen() }
-                            composable<TopNavigationViewModel.About> { AboutScreen() }
+                        val currentScreen by navigationViewModel.currentScreen
+                            .collectAsStateWithLifecycle()
+                        val currentSelectedTabIndex by navigationViewModel.currentSelectedTabIndex
+                            .collectAsStateWithLifecycle(-1)
+
+                        when (currentScreen) {
+                            Screen.LIVE -> LiveScreen()
+                            Screen.MEDIA_CENTER -> MediaCenterScreen()
+                            Screen.ABOUT -> AboutScreen()
                         }
 
                         TopNavigation(
-                            onTabSelected = { index ->
-                                navController.navigate(
-                                    route = TopNavigationViewModel.getRoute(index)
-                                )
-                            },
+                            selectedTabIndex = currentSelectedTabIndex,
+                            onTabSelected = { index -> navigationViewModel.selectMainTab(index) },
+                            tabStringIds = navigationViewModel.mainTabTitleResIds,
                             modifier = Modifier.align(Alignment.TopCenter)
                         )
                     }
