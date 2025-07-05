@@ -32,4 +32,8 @@ class NavigationViewModel : ViewModel() {
     fun showScreen(screen: Screen) {
         _backstack.value += screen
     }
+
+    fun closeCurrentScreen() {
+        _backstack.value = _backstack.value.subList(0, _backstack.value.lastIndex)
+    }
 }

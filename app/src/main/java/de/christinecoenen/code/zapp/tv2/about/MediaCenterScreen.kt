@@ -11,11 +11,13 @@ import de.christinecoenen.code.zapp.tv2.theme.TvPreview
 
 @TvPreview
 @Composable
-fun MediaCenterScreen() {
+fun MediaCenterScreen(
+	onButtonClick: () -> Unit = {},
+) {
 	Column {
 		listOf(1, 2, 3, 4, 5).forEach {
 			Button(
-				onClick = {}
+				onClick = onButtonClick
 			) {
 				Text(it.toString())
 			}

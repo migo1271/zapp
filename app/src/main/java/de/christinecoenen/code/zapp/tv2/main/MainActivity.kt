@@ -2,6 +2,7 @@ package de.christinecoenen.code.zapp.tv2.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -44,17 +45,26 @@ class MainActivity : ComponentActivity() {
                         val currentSelectedTabIndex by navigationViewModel.currentSelectedTabIndex
                             .collectAsStateWithLifecycle(-1)
 
+                        BackHandler(!currentScreen.isMainTabScreen) {
+                            navigationViewModel.closeCurrentScreen()
+                        }
+
                         when (currentScreen) {
                             Screen.EMPTY -> {}
+
                             Screen.LIVE -> LiveScreen(
-                                onChannelClick = {
-                                    navigationViewModel.showScreen(Screen.PLAYER)
-                                }
+                                onChannelClick = { navigationViewModel.showScreen(Screen.PLAYER) }
                             )
 
-                            Screen.MEDIA_CENTER -> MediaCenterScreen()
+                            Screen.MEDIA_CENTER -> MediaCenterScreen(
+                                onButtonClick = { navigationViewModel.showScreen(Screen.PLAYER) }
+                            )
+
                             Screen.ABOUT -> AboutScreen()
-                            Screen.PLAYER -> PlayerScreen()
+
+                            Screen.PLAYER -> PlayerScreen(
+                                onCloseClick = { navigationViewModel.closeCurrentScreen() }
+                            )
                         }
 
                         if (currentScreen.isMainTabScreen) {
