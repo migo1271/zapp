@@ -33,8 +33,10 @@ import androidx.tv.material3.MaterialTheme
 import de.christinecoenen.code.zapp.R
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
 
 val fadeDuration = 750.milliseconds
+val changeDelay = 10.seconds
 
 fun initializeExoPlayer(context: Context): ExoPlayer {
 	return ExoPlayer.Builder(context)
@@ -83,14 +85,18 @@ fun StreamPreviewImage(
 	}
 
 	LaunchedEffect(streamUrl) {
-		isVisible = false
-		delay(fadeDuration)
+		while (true) {
+			isVisible = false
+			delay(fadeDuration)
 
-		player.apply {
-			stop()
-			removeMediaItem(0)
-			setMediaItem(MediaItem.fromUri(streamUrl))
-			prepare()
+			player.apply {
+				stop()
+				removeMediaItem(0)
+				setMediaItem(MediaItem.fromUri(streamUrl))
+				prepare()
+			}
+
+			delay(changeDelay)
 		}
 	}
 
