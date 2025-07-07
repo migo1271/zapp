@@ -19,12 +19,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import de.christinecoenen.code.zapp.R
 import de.christinecoenen.code.zapp.app.livestream.ui.ProgramInfoViewModel
 import de.christinecoenen.code.zapp.models.channels.ChannelModel
 import de.christinecoenen.code.zapp.models.channels.json.JsonChannelList
+import de.christinecoenen.code.zapp.tv2.main.navigation.Location
 import de.christinecoenen.code.zapp.tv2.theme.TvPreview
 import org.koin.androidx.compose.koinViewModel
 
+class LiveScreenLocation : Location(
+	titleResId = R.string.activity_main_tab_live,
+	isMainTab = true,
+)
 
 @TvPreview
 @Composable

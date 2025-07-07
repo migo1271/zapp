@@ -1,13 +1,17 @@
 package de.christinecoenen.code.zapp.tv2.about
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.tv.material3.Button
-import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
+import de.christinecoenen.code.zapp.R
+import de.christinecoenen.code.zapp.tv2.main.navigation.Location
 import de.christinecoenen.code.zapp.tv2.theme.TvPreview
+
+class MediaCenterScreenLocation : Location(
+	titleResId = R.string.activity_main_tab_mediathek,
+	isMainTab = true,
+)
 
 @TvPreview
 @Composable

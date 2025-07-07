@@ -12,11 +12,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tv.material3.MaterialTheme
+import de.christinecoenen.code.zapp.app.player.VideoInfo
 import de.christinecoenen.code.zapp.tv2.about.AboutScreen
+import de.christinecoenen.code.zapp.tv2.about.AboutScreenLocation
 import de.christinecoenen.code.zapp.tv2.about.MediaCenterScreen
+import de.christinecoenen.code.zapp.tv2.about.MediaCenterScreenLocation
 import de.christinecoenen.code.zapp.tv2.live.LiveScreen
+import de.christinecoenen.code.zapp.tv2.live.LiveScreenLocation
+import de.christinecoenen.code.zapp.tv2.main.navigation.Location
 import de.christinecoenen.code.zapp.tv2.main.navigation.NavigationViewModel
-import de.christinecoenen.code.zapp.tv2.main.navigation.Screen
+import de.christinecoenen.code.zapp.tv2.player.PlayerLocation
 import de.christinecoenen.code.zapp.tv2.player.PlayerScreen
 import de.christinecoenen.code.zapp.tv2.theme.AppTheme
 import org.koin.android.ext.android.inject
@@ -25,7 +30,6 @@ class MainActivity : ComponentActivity() {
 
     private val navigationViewModel: NavigationViewModel by inject()
 
-    // TODO: handle back press
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -40,34 +44,37 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.fillMaxSize()
                     )
                     {
-                        val currentScreen by navigationViewModel.currentScreen
-                            .collectAsStateWithLifecycle(Screen.EMPTY)
+                        val currentLocation by navigationViewModel.currentLocation
+                            .collectAsStateWithLifecycle(Location())
                         val currentSelectedTabIndex by navigationViewModel.currentSelectedTabIndex
                             .collectAsStateWithLifecycle(-1)
 
-                        BackHandler(!currentScreen.isMainTabScreen) {
+                        BackHandler(!currentLocation.isMainTab) {
                             navigationViewModel.closeCurrentScreen()
                         }
 
-                        when (currentScreen) {
-                            Screen.EMPTY -> {}
-
-                            Screen.LIVE -> LiveScreen(
-                                onChannelClick = { navigationViewModel.showScreen(Screen.PLAYER) }
+                        when (val location = currentLocation) {
+                            is LiveScreenLocation -> LiveScreen(
+                                onChannelClick = { channel ->
+                                    navigationViewModel.showScreen(
+                                        PlayerLocation(videoInfo = VideoInfo.fromChannel(channel))
+                                    )
+                                }
                             )
 
-                            Screen.MEDIA_CENTER -> MediaCenterScreen(
-                                onButtonClick = { navigationViewModel.showScreen(Screen.PLAYER) }
-                            )
+                            is MediaCenterScreenLocation -> MediaCenterScreen()
 
-                            Screen.ABOUT -> AboutScreen()
+                            is AboutScreenLocation -> AboutScreen()
 
-                            Screen.PLAYER -> PlayerScreen(
-                                onCloseClick = { navigationViewModel.closeCurrentScreen() }
-                            )
+                            is PlayerLocation -> {
+                                PlayerScreen(
+                                    videoInfo = location.videoInfo,
+                                    onCloseClick = { navigationViewModel.closeCurrentScreen() }
+                                )
+                            }
                         }
 
-                        if (currentScreen.isMainTabScreen) {
+                        if (currentLocation.isMainTab) {
                             TopNavigation(
                                 selectedTabIndex = currentSelectedTabIndex,
                                 onTabSelected = { index -> navigationViewModel.selectMainTab(index) },

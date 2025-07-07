@@ -6,11 +6,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
-import de.christinecoenen.code.zapp.tv2.theme.TvPreview
+import de.christinecoenen.code.zapp.app.player.VideoInfo
+import de.christinecoenen.code.zapp.tv2.main.navigation.Location
 
-@TvPreview
+data class PlayerLocation(
+	val videoInfo: VideoInfo,
+) : Location()
+
 @Composable
 fun PlayerScreen(
+	videoInfo: VideoInfo,
 	onCloseClick: () -> Unit = {}
 ) {
 	Button(
@@ -19,7 +24,7 @@ fun PlayerScreen(
 
 	}
 	Text(
-		text = "Player!",
+		text = videoInfo.title,
 		color = MaterialTheme.colorScheme.onSurface,
 		style = MaterialTheme.typography.headlineLarge,
 		modifier = Modifier.fillMaxSize()
