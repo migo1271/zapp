@@ -66,12 +66,7 @@ class MainActivity : ComponentActivity() {
 
                             is AboutScreenLocation -> AboutScreen()
 
-                            is PlayerLocation -> {
-                                PlayerScreen(
-                                    videoInfo = location.videoInfo,
-                                    onCloseClick = { navigationViewModel.closeCurrentScreen() }
-                                )
-                            }
+                            is PlayerLocation -> PlayerScreen(location.videoInfo)
                         }
 
                         if (currentLocation.isMainTab) {
