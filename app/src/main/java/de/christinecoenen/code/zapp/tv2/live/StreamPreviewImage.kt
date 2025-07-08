@@ -17,19 +17,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
-import androidx.media3.ui.AspectRatioFrameLayout
-import androidx.media3.ui.PlayerView
-import androidx.tv.material3.MaterialTheme
+import androidx.media3.ui.compose.PlayerSurface
+import androidx.media3.ui.compose.SURFACE_TYPE_TEXTURE_VIEW
 import de.christinecoenen.code.zapp.R
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.milliseconds
@@ -65,7 +62,6 @@ fun StreamPreviewImage(
 
 	var isVisible by remember { mutableStateOf(false) }
 
-	val bgColor = MaterialTheme.colorScheme.surface.toArgb()
 	val alpha by animateFloatAsState(
 		targetValue = if (isVisible) 1f else 0f,
 		animationSpec = tween(
@@ -109,17 +105,9 @@ fun StreamPreviewImage(
 	Box(
 		modifier = modifier.aspectRatio(16 / 9f),
 	) {
-		AndroidView(
-			factory = {
-				PlayerView(context)
-					.apply {
-						resizeMode = AspectRatioFrameLayout.RESIZE_MODE_ZOOM
-						this.player = player
-						useController = false
-						setBackgroundColor(bgColor)
-						setShutterBackgroundColor(bgColor)
-					}
-			},
+		PlayerSurface(
+			player = player,
+			surfaceType = SURFACE_TYPE_TEXTURE_VIEW,
 			modifier = Modifier.alpha(alpha),
 		)
 		Image(
