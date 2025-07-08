@@ -51,6 +51,7 @@ fun PlayerScreen(
 
 	ControllerOverlay(
 		title = videoInfo.title,
+		subtitle = videoInfo.subtitle,
 		isVisible = controllerVisible,
 	)
 }
