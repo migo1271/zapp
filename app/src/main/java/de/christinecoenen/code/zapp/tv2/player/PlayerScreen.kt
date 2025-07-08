@@ -5,9 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.viewinterop.AndroidView
-import androidx.media3.ui.PlayerView
+import androidx.media3.ui.compose.PlayerSurface
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
 import de.christinecoenen.code.zapp.app.player.Player
@@ -24,8 +22,6 @@ fun PlayerScreen(
 	videoInfo: VideoInfo,
 	player: Player = koinInject<Player>(),
 ) {
-	val context = LocalContext.current
-
 	LaunchedEffect(Unit) {
 		player.load(videoInfo)
 		player.resume()
@@ -37,14 +33,8 @@ fun PlayerScreen(
 		}
 	}
 
-	AndroidView(
-		factory = {
-			PlayerView(context)
-				.apply {
-					player.setView(this)
-					useController = false
-				}
-		},
+	PlayerSurface(
+		player = player.exoPlayer
 	)
 
 	Text(
