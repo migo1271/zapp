@@ -1,13 +1,16 @@
 package de.christinecoenen.code.zapp.tv2.player
 
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.clickable
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.media3.ui.compose.PlayerSurface
-import androidx.tv.material3.MaterialTheme
-import androidx.tv.material3.Text
 import de.christinecoenen.code.zapp.app.player.Player
 import de.christinecoenen.code.zapp.app.player.VideoInfo
 import de.christinecoenen.code.zapp.tv2.main.navigation.Location
@@ -22,6 +25,12 @@ fun PlayerScreen(
 	videoInfo: VideoInfo,
 	player: Player = koinInject<Player>(),
 ) {
+	var controllerVisible by remember { mutableStateOf(false) }
+
+	BackHandler(controllerVisible) {
+		controllerVisible = false
+	}
+
 	LaunchedEffect(Unit) {
 		player.load(videoInfo)
 		player.resume()
@@ -34,13 +43,14 @@ fun PlayerScreen(
 	}
 
 	PlayerSurface(
-		player = player.exoPlayer
+		player = player.exoPlayer,
+		modifier = Modifier.clickable {
+			controllerVisible = !controllerVisible
+		}
 	)
 
-	Text(
-		text = videoInfo.title,
-		color = MaterialTheme.colorScheme.onSurface,
-		style = MaterialTheme.typography.headlineLarge,
-		modifier = Modifier.fillMaxSize()
+	ControllerOverlay(
+		title = videoInfo.title,
+		isVisible = controllerVisible,
 	)
 }
