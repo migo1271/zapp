@@ -36,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.window.core.layout.WindowHeightSizeClass
 import androidx.window.core.layout.WindowSizeClass
 import androidx.window.core.layout.WindowWidthSizeClass
 import com.mikepenz.aboutlibraries.ui.compose.android.rememberLibraries
@@ -69,7 +70,9 @@ class AboutFragment : Fragment() {
 	fun MainScreen() {
 		AppTheme {
 			val windowSizeClass: WindowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
-			val sideBySide = windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.EXPANDED
+			val sideBySide =
+				windowSizeClass.windowHeightSizeClass == WindowHeightSizeClass.COMPACT ||
+					windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.EXPANDED
 
 			if (sideBySide) {
 				Row(verticalAlignment = Alignment.CenterVertically) {
@@ -110,8 +113,8 @@ class AboutFragment : Fragment() {
 			Column(
 				horizontalAlignment = Alignment.CenterHorizontally,
 				modifier = Modifier
-					.widthIn(0.dp, 400.dp)
-					.padding(horizontal = 16.dp)
+                    .widthIn(0.dp, 400.dp)
+                    .padding(horizontal = 16.dp)
 			) {
 				// icon with app info
 				Row(
@@ -123,8 +126,8 @@ class AboutFragment : Fragment() {
 						shape = CircleShape,
 						shadowElevation = 4.dp,
 						modifier = Modifier
-							.width(74.dp)
-							.aspectRatio(1f)
+                            .width(74.dp)
+                            .aspectRatio(1f)
 					) {
 						// icon image
 						Icon(
