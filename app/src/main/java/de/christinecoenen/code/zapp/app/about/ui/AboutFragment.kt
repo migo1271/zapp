@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -63,8 +62,8 @@ class AboutFragment : Fragment() {
 			}
 	}
 
-	@Preview(widthDp = 400, heightDp = 800, showBackground = true)
-	@Preview(widthDp = 800, heightDp = 400, showBackground = true)
+	@Preview(widthDp = 500, heightDp = 900, showBackground = true)
+	@Preview(widthDp = 900, heightDp = 500, showBackground = true)
 	@ThemePreviews
 	@Composable
 	fun MainScreen() {
@@ -88,7 +87,6 @@ class AboutFragment : Fragment() {
 		}
 	}
 
-	@OptIn(ExperimentalLayoutApi::class)
 	@ThemePreviews
 	@Composable
 	fun LibrariesList() {
@@ -112,8 +110,8 @@ class AboutFragment : Fragment() {
 			Column(
 				horizontalAlignment = Alignment.CenterHorizontally,
 				modifier = Modifier
-                    .widthIn(0.dp, 400.dp)
-                    .padding(horizontal = 16.dp)
+					.widthIn(0.dp, 400.dp)
+					.padding(horizontal = 16.dp)
 			) {
 				// icon with app info
 				Row(
@@ -125,8 +123,8 @@ class AboutFragment : Fragment() {
 						shape = CircleShape,
 						shadowElevation = 4.dp,
 						modifier = Modifier
-                            .width(74.dp)
-                            .aspectRatio(1f)
+							.width(74.dp)
+							.aspectRatio(1f)
 					) {
 						// icon image
 						Icon(
