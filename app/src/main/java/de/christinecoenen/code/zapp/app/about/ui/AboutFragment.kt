@@ -124,9 +124,8 @@ class AboutFragment : Fragment() {
 					Surface(
 						color = MaterialTheme.colorScheme.tertiaryContainer,
 						shape = CircleShape,
-						shadowElevation = 4.dp,
 						modifier = Modifier
-                            .width(74.dp)
+							.width(74.dp)
                             .aspectRatio(1f)
 					) {
 						// icon image
@@ -134,7 +133,7 @@ class AboutFragment : Fragment() {
 							painter = painterResource(R.drawable.ic_zapp_tv),
 							contentDescription = null,
 							tint = MaterialTheme.colorScheme.onTertiaryContainer,
-							modifier = Modifier.padding(4.dp)
+							modifier = Modifier.padding(start = 4.dp)
 						)
 					}
 					Spacer(Modifier.width(16.dp))
