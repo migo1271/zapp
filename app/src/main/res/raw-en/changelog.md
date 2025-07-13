@@ -1,3 +1,9 @@
+# 9.1.0
+* System bar does not get stuck after accessing program information inside the player [#313](https://github.com/mediathekview/zapp/issues/313)
+* Adjusted "About Zapp" to different device sizes ([#483](https://github.com/mediathekview/zapp/issues/483))
+* Fixed crash on devices without voice search app
+* Made video quality adjustable in unmetered networks ([#459](https://github.com/mediathekview/zapp/issues/459))
+
 # 9.0.0
 * Added option to disable search history (thanks to Bnyro)
 * Added new mediathek channels ARD-alpha, One and tagesschau24
