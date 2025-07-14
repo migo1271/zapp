@@ -203,9 +203,82 @@
 	},
 	{
 		"id": "wdr",
-		"name": "WDR",
+		"name": "WDR Köln",
 		"stream_url": "https://mcdn.wdr.de/wdr/wdrfs/de/master.m3u8",
 		"logo_name": "channel_logo_wdr",
+		"subtitle": "Köln",
+		"color": "#00375A"
+	},
+	{
+		"id": "wdr_ac",
+		"name": "WDR Aachen",
+		"stream_url": "https://wdrlokalzeit.akamaized.net/hls/live/2018019/wdrlz_aachen/index.m3u8",
+		"logo_name": "channel_logo_wdr",
+		"subtitle": "Aachen",
+		"color": "#00375A"
+	},
+	{
+		"id": "wdr_bi",
+		"name": "WDR Bielefeld",
+		"stream_url": "https://wdrlokalzeit.akamaized.net/hls/live/2018026/wdrlz_bielefeld/index.m3u8",
+		"logo_name": "channel_logo_wdr",
+		"subtitle": "Bielefeld",
+		"color": "#00375A"
+	},
+	{
+		"id": "wdr_bn",
+		"name": "WDR Bonn",
+		"stream_url": "https://wdrlokalzeit.akamaized.net/hls/live/2018021/wdrlz_bonn/index.m3u8",
+		"logo_name": "channel_logo_wdr",
+		"subtitle": "Bonn",
+		"color": "#00375A"
+	},
+	{
+		"id": "wdr_do",
+		"name": "WDR Dortmund",
+		"stream_url": "https://wdrlokalzeit.akamaized.net/hls/live/2018022/wdrlz_dortmund/index.m3u8",
+		"logo_name": "channel_logo_wdr",
+		"subtitle": "Dortmund",
+		"color": "#00375A"
+	},
+	{
+		"id": "wdr_d",
+		"name": "WDR Düsseldorf",
+		"stream_url": "https://wdrlokalzeit.akamaized.net/hls/live/2018023/wdrlz_duesseldorf/index.m3u8",
+		"logo_name": "channel_logo_wdr",
+		"subtitle": "Düsseldorf",
+		"color": "#00375A"
+	},
+	{
+		"id": "wdr_e",
+		"name": "WDR Essen",
+		"stream_url": "https://wdrlokalzeit.akamaized.net/hls/live/2018027/wdrlz_essen/index.m3u8",
+		"logo_name": "channel_logo_wdr",
+		"subtitle": "Essen",
+		"color": "#00375A"
+	},
+	{
+		"id": "wdr_ms",
+		"name": "WDR Münsterland",
+		"stream_url": "https://wdrlokalzeit.akamaized.net/hls/live/2018025/wdrlz_muensterland/index.m3u8",
+		"logo_name": "channel_logo_wdr",
+		"subtitle": "Münsterland",
+		"color": "#00375A"
+	},
+	{
+		"id": "wdr_si",
+		"name": "WDR Siegen",
+		"stream_url": "https://wdrlokalzeit.akamaized.net/hls/live/2018020/wdrlz_siegen/index.m3u8",
+		"logo_name": "channel_logo_wdr",
+		"subtitle": "Siegen",
+		"color": "#00375A"
+	},
+	{
+		"id": "wdr_w",
+		"name": "WDR Bergisches Land",
+		"stream_url": "https://wdrlokalzeit.akamaized.net/hls/live/2018028/wdrlz_wuppertal/index.m3u8",
+		"logo_name": "channel_logo_wdr",
+		"subtitle": "Bergisches Land",
 		"color": "#00375A"
 	},
 	{
